@@ -1,0 +1,29 @@
+#include<lpc17xx.h>
+
+void delay(unsigned int a);
+
+int main() {
+    unsigned int b = 19, c = 26, d;
+
+    while (1) { // Infinite loop for continuous blinking
+        for (d = 0; d < 5; d++) {
+            if (c - b != 1) {
+                LPC_GPIO1->FIODIR = (1 << b) | (1 << c);
+                LPC_GPIO1->FIOSET = (1 << b) | (1 << c);
+                delay(100);
+                LPC_GPIO1->FIOCLR = (1 << b) | (1 << c);
+                delay(100);
+            }
+            b++;
+            c--;
+            if (b > 26) b = 19;
+            if (c < 19) c = 26;
+        }
+    }
+}
+
+void delay(unsigned int a) {
+    unsigned int i, j;
+    for (i = 0; i < a; i++)
+        for (j = 0; j < 6000; j++);
+}
